@@ -1,0 +1,18 @@
+find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
+
+
+docker-command-line will create issues, add it to path:
+export PATH="$PATH:/home/waqas/projects/docker-command-line-interface"
+
+to change the ocred xmls into required lists:
+sed 's/origin_page.xml/page.xml/' ocrs.txt > gts.txt
+
+to replace to absolute path:
+sed -i 's/\./\/home\/waqas\/data\/azp/' merged.txt
+
+useful for checking lines in code:
+wc -l merged.txt
+
+
+find . -iname merged.xml | xargs -I XXX grep -H -c '</Word>' XXX | sort -n -k2 -t:
+
