@@ -13,6 +13,8 @@ sed -i 's/\./\/home\/waqas\/data\/azp/' merged.txt
 useful for checking lines in code:
 wc -l merged.txt
 
+to rename files in a directory:
+find . -name "*.png.npy" -exec rename -v 's/\.png.npy$/\.png/i' {} \; #replaces .png.npy with .png
+
 
 find . -iname merged.xml | xargs -I XXX grep -H -c '</Word>' XXX | sort -n -k2 -t:
-
