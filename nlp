@@ -1,20 +1,67 @@
+
+# creating list of files:
 find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
 
-docker-command-line will create issues, add it to path:
+# remove a file recursively from subdirs
+find . -type f -name '*.o' -delete
+
+
+# docker-command-line will create issues, add it to path:
 export PATH="$PATH:/home/waqas/projects/docker-command-line-interface"
 
-to change the ocred xmls into required lists:
+
+# to change the ocred xmls into required lists:
 sed 's/origin_page.xml/page.xml/' ocrs.txt > gts.txt
 
-to replace to absolute path:
+
+# to replace to absolute path:
 sed -i 's/\./\/home\/waqas\/data\/azp/' merged.txt
 
-useful for checking lines in code:
+
+# useful for checking lines in code:
 wc -l merged.txt
 
-to rename files in a directory:
-find . -name "*.png.npy" -exec rename -v 's/\.png.npy$/\.png/i' {} \; #replaces .png.npy with .png
+
+# renaming files start from 1:
+a=1
+for i in *.jpg; do
+  new=$(printf "%d.png" "$a") #04 pad to length of 4
+  mv -i -- "$i" "$new"
+  let a=a+1
+done
 
 
+# error for levenstein distance
+error: command 'x86_64-linux-gnu-gcc' failed with exit status 1
+ or pyhthon - levenstein problem:
+sol:
+sudo apt-get install python3 python-dev python3-dev \
+     build-essential libssl-dev libffi-dev \
+     libxml2-dev libxslt1-dev zlib1g-dev \
+     python-pip
+
+
+# grep word tag from xmls and no idea what sort does:
 find . -iname merged.xml | xargs -I XXX grep -H -c '</Word>' XXX | sort -n -k2 -t:
+
+
+# Setup the pypi server, look in lastpass pip.conf.
+Install mlevaluation. 
+mleval_text_recognition_report.py --help
+
+
+# To create page-xml from images:
+pagexml_create.py -o Schadenbild3986600565622701331.xml Schadenbild3986600565622701331.jpg
+
+
+# md5sum
+find -iname *.pdf | xargs md5sum > ../service1.md5
+
+
+# copy from one place to another
+cat contains_matching_ids.txt | awk -F"\t" '{print $2" "$3}' | sed 's|/home/waqas/avrios/||g' | sed 's|/original.pdf||g' | awk '{printf("cp /home/waqas/avrios/"$1"/merged.xml /home/waqas/avrios1/avrios/"$2"/merged.xml\n")}' | bash
+
+
+# replace same filenames in directories
+for subdir in *; do mv $subdir/page.xml $subdir/empty.xml; done;
