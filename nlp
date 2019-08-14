@@ -25,6 +25,9 @@ export PATH="$PATH:/home/waqas/projects/docker-command-line-interface"
 # to change the ocred xmls into required lists:
 sed 's/origin_page.xml/page.xml/' ocrs.txt > gts.txt
 
+# renaming files using bash
+for filename in IMG-*; do echo mv \"$filename\" \"${filename//IMG-/}\"; done | bash
+
 
 # to replace to absolute path:
 sed -i 's/\./\/home\/waqas\/data\/azp/' merged.txt
