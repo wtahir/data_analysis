@@ -2,6 +2,15 @@
 # creating list of files:
 find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
+# adding file extention,
+for f in *; do mv "$f" "$(printf "$f.png")"; done
+
+#renaming files
+ls -v | cat -n | while read n f; do mv -n "$f" "$n.png"; done
+
+# renaming files with padding
+n=1; for f in *.txt; do mv "$f" "$(printf "CO_%02i_%s" "$n" "$f")"; ((n++)); done
+
 # replacing filenames globally and saving it in a list
 cat class15_filtered_100.lst | sed 's|.tif|_ocr.xml|g' > class15_filtered_100a.lst
 
