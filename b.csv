@@ -1,0 +1,6 @@
+uuid,page,field,gt,pred,levenshtein_distance,doc_conf,entity_conf,corrected
+bb5c82f2-9e00-4ce5-84e9-1d54ffc9c741,0,Location.City,<empty/>,,,0.465065,,No
+026e99a0-acd9-48e9-899e-c7f04a0aaf89,0,Location.City,"Sorrento,","Sorrento,",0,0.616828,0.964536,Yes
+026e99a0-acd9-48e9-899e-c7f04a0aaf89,0,Location.Id,i,i,0,0.616828,1,Yes
+026e99a0-acd9-48e9-899e-c7f04a0aaf89,0,Location.Line1,25541 State Road 46,25541 State Road 46,0,0.616828,0.930531,Yes
+026e99a0-acd9-48e9-899e-c7f04a0aaf89,0,Location.State,FL,FL,0,0.616828,0.994462,Yes

@@ -5,6 +5,9 @@ find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 # adding file extention,
 for f in *; do mv "$f" "$(printf "$f.png")"; done
 
+# renaming with padding added
+for f in *.png; do mv "$f" "$(printf "%03i%s" "$f")"; done
+
 #renaming files
 ls -v | cat -n | while read n f; do mv -n "$f" "$n.png"; done
 
