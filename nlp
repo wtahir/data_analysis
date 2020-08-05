@@ -2,6 +2,9 @@
 # creating list of files:
 find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
+# copying files based on list as a text file
+while read file; do cp "$file" folder_to_be_copied_to; done < filelist.lst
+
 # adding file extention,
 for f in *; do mv "$f" "$(printf "$f.png")"; done
 
