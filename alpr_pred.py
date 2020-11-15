@@ -24,3 +24,5 @@ def predictions_json(image_path, secret_key):
             with open(json_file, 'w') as outfile:  
                 json.dump(r.json(), outfile)
             return
+
+# end
