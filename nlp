@@ -1,36 +1,93 @@
+# mounting external directory (e.g. mount to BAS and mount on folder mnt)
+sudo mount -t cifs -o username=waqas,sec=ntlm,vers=1.0 //172.23.0.201/BAS ~/mnt
+
+
+# upload collection:
+python client_v2_1.py --config ../platform.yaml upload_dir --collection_id bb826877-3ff8-482d-8528-b3f81849cd86 --in_dir /home/waqas/Desktop/upload_BAS_corrected/ --pipeline_queue_name trainer-dynamic --priority true
+
+
+# unmount
+mount -l ~/mnt
+
+
+# remove double quotes from each line:
+cat damage_upload.lst | sed 's/"//g' > filename.lst
+
+# common files between two files list
+comm -12 <(sort set1.txt) <(sort set2.txt)
+
+
+# remove '.pdf' from the centre of the filename
+for file in *; do mv "${file}" "${file/.pdf/}"; done
+
+
+# opening pdfs with name and trigger new open after cancelling:
+for p in *.pdf; do echo $p; evince $p; read; done
+
+
+# Use of jq to get list of files from cck:
+python client_v2.py --config ../trainer.yaml get_documents --collection_id 161ef19a-9236-4d2f-99c7-4115161cda6a | jq '.payload.items[].file_name'
+
+
+# see the list of files which are not present (it needs sorted list of both files):
+comm 1st.lst 2nd.lst -3
+
+
+# word count:
+wc -l <filename>
+
+
+# open list of pdfs:
+while read p; do evince "$p"; done <filtered_list.lst
+
 
 # creating list of files:
 find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
-# copying files based on list as a text file
+
+# list, print and count unique
+ls *.pdf | awk -F _ '{print $1}' | sort | uniq -c | wc -l
+
+
+# copying files based on list as a text file:
 while read file; do cp "$file" folder_to_be_copied_to; done < filelist.lst
 
-# adding file extention,
+
+# adding file extention:
 for f in *; do mv "$f" "$(printf "$f.png")"; done
 
-# renaming with padding added
+
+# renaming with padding added:
 for f in *.png; do mv "$f" "$(printf "%03i%s" "$f")"; done
+
 
 #renaming files
 ls -v | cat -n | while read n f; do mv -n "$f" "$n.png"; done
 
+
 # renaming files with padding
 n=1; for f in *.txt; do mv "$f" "$(printf "CO_%02i_%s" "$n" "$f")"; ((n++)); done
+
 
 # replacing filenames globally and saving it in a list
 cat class15_filtered_100.lst | sed 's|.tif|_ocr.xml|g' > class15_filtered_100a.lst
 
+
 # remove a file recursively from subdirs
 find . -type f -name '*.o' -delete
+
 
 # remove all files except '*.any'
 find . -type f ! -name '*.any' -delete 
 
+
 # to delete files that are not in .lst
 ls | grep -v -F -f <(cat ../class*lst | sed 's|.*/||' | sort -u) | xargs mv -t ../data_TRASH/
 
+
 # to cp files through a list to a folder
 xargs -a class4_filtered_100a.lst cp -t tocopy/
+
 
 
 # docker-command-line will create issues, add it to path:
