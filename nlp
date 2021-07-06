@@ -20,7 +20,8 @@ nvidia-docker run --entrypoint bash -v /home/waqas/repos/question_answering:/waq
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
 
-
+# run platform-client to download collection xmls
+python platform_client/export.py export_collection 818fe13d-9822-4fd1-b296-819303085040 rejected_nicht_versichertes_objekt https://vie001.internal.omnius.com/engine https://vie001.internal.omnius.com/shield steinfeld@omnius.com Steinfeld_123 v2
 
 
 # mounting external directory (e.g. mount to BAS and mount on folder mnt)
