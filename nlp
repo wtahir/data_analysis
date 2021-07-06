@@ -6,6 +6,8 @@ https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-
 
 https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
+# to remove ./ from file list
+sed 's|^./||' filename.lst
 
 # to execute an image called compassionate_gates in bash
 docker exec -it compassionate_gates bash
