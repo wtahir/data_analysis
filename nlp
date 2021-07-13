@@ -7,10 +7,34 @@ https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-
 https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
 
+# to remove ./ from file list
+sed 's|^./||' filename.lst
+
+
+# resume a screen
+screen -r
+
+
+# detach a screen
+ctrl + a d
+
+
+# see list of screens
+screen -ls
+
+
+# kill a screen 
+screen -X -S [session # you want to kill] quit
+ 
+
+
+# train question answering
+question_answering_train_csv.py --train_data_path question_answering_tests/data/train.csv --val_data_path question_answering_tests/data/val.csv --train.dataset.column.text description   --train.dataset.column.doc_id file --train.dataset.column.questions question_1 question_2 question_3   --train.dataset.sep , --train.mlflow.tracking_uri test-training-csv/ --train.trainer.gpus 1
+
 # to execute an image called compassionate_gates in bash
 docker exec -it compassionate_gates bash
 
-# run a docker container with name "packages-qa.omnius.com/omnius/question-answering:0.2.1", -p to specify port (local:remote check this one), -dit detchable, --entrypoint which is bash, -v (volume) to mount a folder in the docker container PATH_TO_FOLDER:DESTINY_FOLDER_NAME
+# run a docker container with name "packages-qa.omnius.com/omnius/question-answering:0.2.1", -p to specify port (local:remote check this one), -dit detchable, --entrypoint which is bash, -v (volume) #to mount a folder in the docker container PATH_TO_FOLDER:DESTINY_FOLDER_NAME
 docker run -p 5000:5000 -dit --entrypoint bash -v /home/waqas/repos/question_answering:/waqas_data/  packages-qa.omnius.com/omnius/question-answering:0.2.1
 
 # to run training using gpu in docker
@@ -20,11 +44,16 @@ nvidia-docker run --entrypoint bash -v /home/waqas/repos/question_answering:/waq
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
 
 
-
+# run platform-client to download collection xmls
+python platform_client/export.py export_collection 818fe13d-9822-4fd1-b296-819303085040 rejected_nicht_versichertes_objekt https://vie001.internal.omnius.com/engine https://vie001.internal.omnius.com/shield steinfeld@omnius.com Steinfeld_123 v2
 
 
 # mounting external directory (e.g. mount to BAS and mount on folder mnt)
 sudo mount -t cifs -o username=waqas,sec=ntlm,vers=1.0 //172.23.0.201/BAS ~/mnt
+
+
+# copying a docker container to remote with progress bar
+rsync -azP /home/waqas/LOB/qa.tar  waqas@172.23.0.186:/home/waqas/question_answering
 
 
 # upload collection:
