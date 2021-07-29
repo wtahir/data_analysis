@@ -6,11 +6,17 @@ https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-
 
 https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
-# to remove ./ from file list
-sed 's|^./||' filename.lst
 
 # to remove ./ from file list
 sed 's|^./||' filename.lst
+
+
+# find a directory via terminal
+find . -type d | grep DIRNAME
+
+
+# get model tags in json via URL
+https://platform-cck-2.internal.omnius.com/trainer/api/v2/trainer/data-models/
 
 
 # resume a screen
@@ -27,6 +33,10 @@ screen -ls
 
 # kill a screen 
 screen -X -S [session # you want to kill] quit
+
+
+# sort in bash (2nd column, then 1st column of the file pepole.txt)
+sort -k2,2 -k1,1 <people.txt
  
 
 
