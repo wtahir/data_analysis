@@ -37,6 +37,10 @@ screen -X -S [session # you want to kill] quit
 
 # sort in bash (2nd column, then 1st column of the file pepole.txt)
 sort -k2,2 -k1,1 <people.txt
+
+
+# train question answering with xmls
+question_answering_train_xml.py --train_data_path trainNotNan.lst --val_data_path valNotNan.lst --train.mlflow.tracking_uri ../output --train.dataset.doc_id basename --train.dataset.sample_selector //_:PcGts --test_data_path testNotNan.lst --train.trainer.gpus 1
  
 
 
@@ -83,6 +87,10 @@ cat damage_upload.lst | sed 's/"//g' > filename.lst
 comm -12 <(sort set1.txt) <(sort set2.txt)
 
 
+# uncommon files between two file lists
+comm -3 <(sort base_engine.lst) <(sort risks.lst)
+
+
 # remove '.pdf' from the centre of the filename
 for file in *; do mv "${file}" "${file/.pdf/}"; done
 
@@ -92,7 +100,7 @@ for p in *.pdf; do echo $p; evince $p; read; done
 
 
 # Use of jq to get list of files from cck:
-python client_v2.py --config ../trainer.yaml get_documents --collection_id 161ef19a-9236-4d2f-99c7-4115161cda6a | jq '.payload.items[].file_name'
+python platform_client/client_v2.py --config engine.yaml get_documents --collection_id 63dcff7a-8bf9-4ed5-b3ac-e6801a3d7694 | jq '.payload.items[].file_name'
 
 
 # see the list of files which are not present (it needs sorted list of both files):
