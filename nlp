@@ -7,6 +7,30 @@ https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-
 https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
 
+https://platform-cck-2.internal.omnius.com/engine/api/v2/collections/a0ca474e-3cce-44bd-92b2-3d3a757ec045/documents/b8d50e82-7c1c-49be-a34b-436d5a40a04b/files/validated-page.xml
+
+
+
+
+# to open sftp files and cp to local/ chanage files
+kubectl exec platform-cck-2-qa-omnius-api-c587694f4-htrll -it -n engine -- bash
+
+
+# link to airflow
+https://platform-cck-2.internal.omnius.com/engine/airflow/admin/airflow/tree?dag_id=engine-dynamic&num_runs=&root=
+
+
+# watching training logs
+- kubectl get pods -n trainer
+- open training and copy the running pod link
+- kubectl logs -f -n trainer {pod link}
+
+
+# connect to dbeaver
+kubectl get pods -n trainer | grep postgres
+kubectl port-forward platform-cck-2-qa-postgres-omnius-78c78f74d7-sslrl 5441:5432 -n trainer
+
+
 # to remove ./ from file list
 sed 's|^./||' filename.lst
 
@@ -41,6 +65,13 @@ sort -k2,2 -k1,1 <people.txt
 
 # train question answering with xmls
 question_answering_train_xml.py --train_data_path trainNotNan.lst --val_data_path valNotNan.lst --train.mlflow.tracking_uri ../output --train.dataset.doc_id basename --train.dataset.sample_selector //_:PcGts --test_data_path testNotNan.lst --train.trainer.gpus 1
+
+
+# create mlevaluation report
+mleval_entity_recognition_report.py /home/waqas/repos/platform-client/platform_client/invoice_gt/invoice_gt.conll /home/waqas/repos/platform-client/platform_client/invoice_pr/invoice_pr.conll /home/waqas/Downloads/train_tags.txt report_invoice
+
+# convert to conll, list files are the list of xmls
+pagexml_to_conll_2003.py invoice_pr.lst invoice_pr.conll
  
 
 
@@ -101,6 +132,10 @@ for p in *.pdf; do echo $p; evince $p; read; done
 
 # Use of jq to get list of files from cck:
 python platform_client/client_v2.py --config engine.yaml get_documents --collection_id 63dcff7a-8bf9-4ed5-b3ac-e6801a3d7694 | jq '.payload.items[].file_name'
+
+
+# get data model json:
+python client_v2_1.py --config ../trainer.yaml get_data_model --data_model_id 68f51c14-828d-48e8-a5c3-ca7a55d25c32 | jq '.payload'
 
 
 # see the list of files which are not present (it needs sorted list of both files):
