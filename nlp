@@ -11,6 +11,16 @@ https://platform-cck-2.internal.omnius.com/engine/api/v2/collections/a0ca474e-3c
 
 
 
+# Azure sftp connection credentials:
+host: sftp://10.10.1.5
+username: apisftpuser
+password: sftppwd
+port: 2222
+
+
+# command to start deployment of a new data model
+kubectl get cm -n trainer platform-sftp-config -o yaml
+
 
 # to open sftp files and cp to local/ chanage files
 kubectl exec platform-cck-2-qa-omnius-api-c587694f4-htrll -it -n engine -- bash
@@ -92,7 +102,7 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.
 
 
 # run platform-client to download collection xmls
-python platform_client/export.py export_collection 818fe13d-9822-4fd1-b296-819303085040 rejected_nicht_versichertes_objekt https://vie001.internal.omnius.com/engine https://vie001.internal.omnius.com/shield steinfeld@omnius.com Steinfeld_123 v2
+python export.py export_collection d331ba90-20dd-49b2-9d48-18134bda3f33 risks_collection https://platform-cck-2.internal.omnius.com/trainer https://platform-cck-2.internal.omnius.com/shield root@omnius.com Omnius123root v2
 
 
 # mounting external directory (e.g. mount to BAS and mount on folder mnt)
@@ -152,6 +162,10 @@ while read p; do evince "$p"; done <filtered_list.lst
 
 # creating list of files:
 find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
+
+
+# add a string in the end of each line in list file
+sed -e 's/$/string after each line/' -i filename
 
 
 # list, print and count unique
