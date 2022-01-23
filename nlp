@@ -36,6 +36,11 @@ https://platform-cck-2.internal.omnius.com/engine/airflow/admin/airflow/tree?dag
 - kubectl logs -f -n trainer {pod link}
 
 
+
+# copy files to data model disk
+kubectl cp -n engine metadata.json platform-cck-2-qa-platform-sftp-6669df7bc5-zs5h8:/opt/omnius/models-disk/ai-models/9c56cab5-06a7-4efb-994c-439b954e91a0
+
+
 # connect to dbeaver
 kubectl get pods -n trainer | grep postgres
 kubectl port-forward platform-cck-2-qa-postgres-omnius-78c78f74d7-sslrl 5441:5432 -n trainer
