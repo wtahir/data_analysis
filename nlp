@@ -6,6 +6,7 @@ https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-
 
 https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
+https://platform-cck-2.internal.omnius.com/trainer/mlflow/ui
 
 https://platform-cck-2.internal.omnius.com/engine/api/v2/collections/a0ca474e-3cce-44bd-92b2-3d3a757ec045/documents/b8d50e82-7c1c-49be-a34b-436d5a40a04b/files/validated-page.xml
 
@@ -18,6 +19,14 @@ password: sftppwd
 port: 2222
 
 
+# create a remote branch
+ git push origin <branch name>
+
+
+# generate ml-evaluation report for evaluation
+mleval_classification_report.py --cfg ~/repos/ml-evaluation/examples/classification/emotion/evaluation_config.yaml gt_type_of_damage.tab pr_type_of_damage.tab output  
+
+
 # command to start deployment of a new data model
 kubectl get cm -n trainer platform-sftp-config -o yaml
 
@@ -26,8 +35,12 @@ kubectl get cm -n trainer platform-sftp-config -o yaml
 kubectl exec platform-cck-2-qa-omnius-api-c587694f4-htrll -it -n engine -- bash
 
 
-# link to airflow
-https://platform-cck-2.internal.omnius.com/engine/airflow/admin/airflow/tree?dag_id=engine-dynamic&num_runs=&root=
+# link to airflow engine
+https://platform-cck-2.internal.omnius.com/engine/airflow/admin/
+
+
+# link to airflow trainer
+https://platform-cck-2.internal.omnius.com/trainer/airflow/admin/airflow/tree?dag_id=trainer-dynamic
 
 
 # watching training logs
@@ -36,6 +49,8 @@ https://platform-cck-2.internal.omnius.com/engine/airflow/admin/airflow/tree?dag
 - kubectl logs -f -n trainer {pod link}
 
 
+#sort second column of a numeric text file in bash
+sort -k2 -n yourfile
 
 # copy files to data model disk
 kubectl cp -n engine metadata.json platform-cck-2-qa-platform-sftp-6669df7bc5-zs5h8:/opt/omnius/models-disk/ai-models/9c56cab5-06a7-4efb-994c-439b954e91a0
