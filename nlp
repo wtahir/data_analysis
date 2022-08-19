@@ -18,13 +18,12 @@ username: apisftpuser
 password: sftppwd
 port: 2222
 
+# Get list of documents inside different folders
+for d in $(ls .); do echo $d; ls $d | wc -l; done
+
 
 # unify to single pdf. Run it from local as I fixed all by installing modules/ cloning the repos and replacing paths in the scripts to the new paths of mine
 unify_to_single_pdf.py ~/test_cases/ garbage_hashes.lst
-
-
-
-
 
 
 # create a remote branch
@@ -195,6 +194,13 @@ find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
 # add a string in the end of each line in list file
 sed -e 's/$/string after each line/' -i filename
+
+
+# remove documents via list file
+xargs rm -r <files.lst
+
+# to mount, command works
+sshfs -o nonempty waqas@172.23.0.201:/AZA ~/mnt/AZA
 
 
 # list, print and count unique
