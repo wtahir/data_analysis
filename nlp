@@ -118,11 +118,13 @@ question_answering_train_csv.py --train_data_path question_answering_tests/data/
 # to execute an image called compassionate_gates in bash
 docker exec -it compassionate_gates bash
 
-# run a docker container with name "packages-qa.omnius.com/omnius/question-answering:0.2.1", -p to specify port (local:remote check this one), -dit detchable, --entrypoint which is bash, -v (volume) #to mount a folder in the docker container PATH_TO_FOLDER:DESTINY_FOLDER_NAME
+# run a docker container with name "packages-qa.omnius.com/omnius/question-answering:0.2.1", -p to specify port (local:remote check this one), -dit detchable, --entrypoint which is bash, -v (volume) 
+
+#to mount a folder in the docker container PATH_TO_FOLDER:DESTINY_FOLDER_NAME
 docker run -p 5000:5000 -dit --entrypoint bash -v /home/waqas/repos/question_answering:/waqas_data/  packages-qa.omnius.com/omnius/question-answering:0.2.1
 
 # to run training using gpu in docker
-nvidia-docker run --entrypoint bash -v /home/waqas/repos/question_answering:/waqasData/ -dit packages-qa.omnius.com/omnius/question-answering:0.2.1
+nvidia-docker run --entrypoint bash -v /home/waqas/repos/question_answering:/docker_train/ -dit packages-qa.omnius.com/omnius/question-answering:0.5.0
 
 # Install nvidia drivers for docker container
 https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker
@@ -138,6 +140,10 @@ sudo mount -t cifs -o username=waqas,sec=ntlm,vers=1.0 //172.23.0.201/BAS ~/mnt
 
 # copying a docker container to remote with progress bar
 rsync -azP /home/waqas/LOB/qa.tar  waqas@172.23.0.186:/home/waqas/question_answering
+
+
+# save docker image
+docker save -o qa_5_0.tar packages-qa.omnius.com/omnius/question-answering:0.5.0
 
 
 # upload collection:
