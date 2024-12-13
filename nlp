@@ -4,7 +4,7 @@ doc_ai_client_config = {
     "namespace_url": "https://de-dca-dev.omnius.com/trainer",
     "auth_url": "https://de-dca-dev.omnius.com/shield",
     "username": "root@omnius.com",
-    "password": "D@9aVgfdCuhET8s8P",
+    "password": "",
 }
 
 
