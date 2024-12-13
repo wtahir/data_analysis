@@ -1,15 +1,28 @@
-https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/
+# debug microservice
 
-https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/data
+doc_ai_client_config = {
+    "namespace_url": "https://de-dca-dev.omnius.com/trainer",
+    "auth_url": "https://de-dca-dev.omnius.com/shield",
+    "username": "root@omnius.com",
+    "password": "D@9aVgfdCuhET8s8P",
+}
 
-https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files
 
-https://vie001.internal.omnius.com/engine/api/v2/collections/f974e70c-d03a-486a-b121-87fc1b5383db/documents/fdc579b7-a704-4635-bb54-4a07e4936c83/files/validated-page.xml
 
-https://platform-cck-2.internal.omnius.com/trainer/mlflow/ui
+# Get active predictors
+doc-ai-client.py --config /home/waqas/yaml/dca/dca_trainer.yaml get_predictors --status ACTIVE
 
-https://platform-cck-2.internal.omnius.com/trainer/api/v2/collections/c905d3ce-28f1-4826-ba38-b1632b539324/documents/a1f230d8-d0ce-4fba-8f1d-4c362b584fd5/files/ocr-page.xml
+doc-ai-client.py --config de-dca-dev-trainer.yaml get_predictors --status ACTIVE | grep name` and then `doc-ai-client.py --config de-dca-dev-trainer.yaml deactivate_predictor --predictor <predictor>
 
+doc-ai-client.py --config /home/waqas/yaml/dca/dca_trainer.yaml activate_predictor --predictor ea723746-6858-4b9f-9fbb-f3f83961aead
+
+# run annotation_tool file
+python /home/waqas/repos/data-science-toolbox/scripts/annotation_tools/create_excel_for_annotators.py /home/waqas/yaml/dca/dca_trai
+ner.yaml insured_object '0f508eae-b8cd-4feb-9807-b2e7359dcbfa' --status_filter ANNOTATED
+
+
+# to run the evaluation report
+python scripts/model_evaluation/compare_prediction_evaluation.py compare_prediction_evaluation payee ENTITIES --sel_collections "['vie_payee_iban_failures_test', 'vig_dca_test', 'vie_mixed_de_prod_extraction_test', 'vie_glass_end2end_test_payee', 'vie_water_end2end_test_payee']" --sel_predictors "['p_2024-07-30_de_unique_azure-forms-read', 'p_2024-08-15_de_firefly_azure-forms-read']" --doc_ai_client configs/dai/de-dca-dev.yaml
 
 
 # Azure sftp connection credentials:
@@ -17,6 +30,23 @@ host: sftp://10.10.1.5
 username: apisftpuser
 password: sftppwd
 port: 2222
+
+
+# get files from sftp after logging in
+get -r 9aa67b2f-271c-4d60-a59c-0b7006d33593/
+
+# upload only newer/ changed ones to a different sftp
+lftp -u azaprodsftpuser,54Me0oZj6zFk sftp://44.115.56.71 <<EOF                                                                                      
+mirror --reverse --only-newer /home/waqas/9aa67b2f-271c-4d60-a59c-0b7006d33593 /artifacts/
+EOF
+
+# copy models from sftp
+
+- Firt copy predictor folder to local
+- Copy evaluation_report from mlflow i.e. (s3://ai-models/160/d880dc6d1e8043e898cd1721e1751d60/artifacts/evaluation_report) with id folder to local
+- To copy this foder, go to filezilla and copy the evaluation report folder under the UUID which would be avaibale in mlflow for the reference, this folder is under 
+  for example nlp-entity-prediction  
+- Upload both of these folders to the respective places in sftp 
 
 # Get list of documents inside different folders
 for d in $(ls .); do echo $d; ls $d | wc -l; done
@@ -72,6 +102,9 @@ kubectl port-forward platform-cck-2-qa-postgres-omnius-78c78f74d7-sslrl 5441:543
 sed 's|^./||' filename.lst
 
 
+# to move pdfs out of subfolders
+ls -1 /home/waqas/Downloads/aza_risk_cause_files/raw_data/*/20*.pdf | xargs -I {} mv {} /home/waqas/Downloads/aza_risk_cause_files/raw_data
+
 # find a directory via terminal
 find . -type d | grep DIRNAME
 
@@ -82,6 +115,10 @@ https://platform-cck-2.internal.omnius.com/trainer/api/v2/trainer/data-models/
 
 # resume a screen
 screen -r
+
+
+# delete remote git branch
+git push origin --delete feature/numbers_instead_percent
 
 
 # detach a screen
@@ -118,6 +155,11 @@ question_answering_train_csv.py --train_data_path question_answering_tests/data/
 # to execute an image called compassionate_gates in bash
 docker exec -it compassionate_gates bash
 
+
+#steam location
+/home/waqas/.steam/root/steamapps/common/Counter-Strike\ Source/cstrike/download/maps
+
+
 # run a docker container with name "packages-qa.omnius.com/omnius/question-answering:0.2.1", -p to specify port (local:remote check this one), -dit detchable, --entrypoint which is bash, -v (volume) 
 
 #to mount a folder in the docker container PATH_TO_FOLDER:DESTINY_FOLDER_NAME
@@ -134,8 +176,8 @@ https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.
 python export.py export_collection d331ba90-20dd-49b2-9d48-18134bda3f33 risks_collection https://platform-cck-2.internal.omnius.com/trainer https://platform-cck-2.internal.omnius.com/shield root@omnius.com Omnius123root v2
 
 
-# mounting external directory (e.g. mount to BAS and mount on folder mnt)
-sudo mount -t cifs -o username=waqas,sec=ntlm,vers=1.0 //172.23.0.201/BAS ~/mnt
+# mounting external directory
+sudo mount -t cifs //172.23.3.168/AZA ~/mnt/AZA -o username=waqas,password=Outlookpassword29?,domain=omnius,vers=3.0,dir_mode=0777,file_mode=0777
 
 
 # copying a docker container to remote with progress bar
@@ -182,6 +224,10 @@ python platform_client/client_v2.py --config engine.yaml get_documents --collect
 python client_v2_1.py --config ../trainer.yaml get_data_model --data_model_id 68f51c14-828d-48e8-a5c3-ca7a55d25c32 | jq '.payload'
 
 
+# csv to tsv on bash
+sed -E 's/("([^"]*)")?,/\2\t/g' file
+
+
 # see the list of files which are not present (it needs sorted list of both files):
 comm 1st.lst 2nd.lst -3
 
@@ -190,7 +236,7 @@ comm 1st.lst 2nd.lst -3
 wc -l <filename>
 
 
-# open list of pdfs:
+# open list of pdfs
 while read p; do evince "$p"; done <filtered_list.lst
 
 
@@ -200,6 +246,10 @@ find /home/waqas/data/proof_cancellation/ -name "origin.pdf" | sort > pdfs.txt
 
 # add a string in the end of each line in list file
 sed -e 's/$/string after each line/' -i filename
+
+
+# add prefix to the lines in text file and remove additional spaces
+cat file | ts prefix | tr -d ' '
 
 
 # remove documents via list file
@@ -221,6 +271,10 @@ while read file; do cp "$file" folder_to_be_copied_to; done < filelist.lst
 for f in *; do mv "$f" "$(printf "$f.png")"; done
 
 
+# changing file extension from .bin to .pdf
+for a in *; do mv -- "$a" "${a%.bin.pdf}.pdf"; done
+
+
 # renaming with padding added:
 for f in *.png; do mv "$f" "$(printf "%03i%s" "$f")"; done
 
@@ -239,6 +293,10 @@ cat class15_filtered_100.lst | sed 's|.tif|_ocr.xml|g' > class15_filtered_100a.l
 
 # remove a file recursively from subdirs
 find . -type f -name '*.o' -delete
+
+
+# delete all collections script in platform_client
+python platform_client/client_v2.py --config trainer.yaml delete_all_collections --pattern cause-unq004-202203-pred --delete_all_documents True
 
 
 # remove all files except '*.any'
